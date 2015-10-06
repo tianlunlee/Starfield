@@ -1,48 +1,80 @@
 //your code here
+Particle [] matter = new Particle[500];
 void setup()
 {
 	//your code here
 	size(300, 300);
-	Particle [] matter = new Particle[20];
-    for (i = 0; i < matter.length; i++) {
-    	if (i % 2 == 0 || i % 3 == 0 || i % 5 == 0) {
-    		matter[i] = new NormalParticle;
+	background(0);
+	
+    for (int i = 0; i < matter.length-2; i++) {
+    	
+    	if (i == 498) {
+    		matter[0] = new OddballParticle();
+
     	}
-    	else if (i % 7 == 0 || i % 11 == 0 || i % 13 == 0) {
-    		matter[i] = new JumboParticle;
-    	} 
-    	else {
-    		matter[i] = new OddballParticle;
+    	if (i == 499){
+    		matter[i] = new JumboParticle();
     	}
     }
 }
 void draw()
 {
 	//your code here
+	for (int i = 0; i < matter.length; i++) {
+		matter[i].move();
+		matter[i].show();
+	}
 }
-class NormalParticle
+class NormalParticle implements Particle
 {
 	//your code here
-	double pX, pY, pSpeed, pAng;
+	float pX, pY, pSpeed, pAng;
 	int pCol;
 	NormalParticle() {
+		pX = 150;
+		pY = 150;
+		pCol = (int)(Math.random()*255);
+		pAng = (float)(Math.random()*360);
 
 	}
-	void move() {
-		pX = pX + (cos(pAng));
-		pY = pY + (sin(pAng));
+	public void move() {
+		pX = pX + (cos((float)pAng));
+		pY = pY + (sin((float)pAng));
 	}
-	void show() {
-		fill(pCol);
+	public void show() {
+		fill(pCol, pX, pY);
 		ellipse(pX, pY, 5, 5);
 	}
 }
 interface Particle
 {
 	//your code here
+	public void move(); 
+
+	
+	public void show();
+
 }
-class OddballParticle //uses an interface
+class OddballParticle implements Particle //uses an interface
 {
+	float pX, pY, pSpeed, pAng;
+	int pCol;
+	OddballParticle() {
+		pX = 150;
+		pY = 150;
+		pCol = (int)(Math.random()*255);
+		pAng = (float)(Math.random()*360);
+
+	}
+
+	void move() {
+		pX = pX + ((float)Math.random()*2-1);
+		pY = pY + ((float)Math.random()*2-1);
+	}
+	void show() {
+		fill (pX, pCol, pY);
+		ellipse ( pY, pY, 5, 5);
+	}
 	//your code here
 }
 class JumboParticle //uses inheritance
