@@ -7,19 +7,19 @@ void setup()
 	background(0);
 	
     for (int i = 0; i < matter.length-2; i++) {
-    	
-    	if (i == 498) {
-    		matter[0] = new OddballParticle();
-
-    	}
-    	if (i == 499){
-    		matter[i] = new JumboParticle();
-    	}
+    	matter[i] = new NormalParticle();
     }
+
+    		matter[498] = new OddballParticle();
+
+
+    		matter[499] = new JumboParticle();
+    	    
 }
 void draw()
 {
 	//your code here
+	background(0);
 	for (int i = 0; i < matter.length; i++) {
 		matter[i].move();
 		matter[i].show();
@@ -33,13 +33,14 @@ class NormalParticle implements Particle
 	NormalParticle() {
 		pX = 150;
 		pY = 150;
+		pSpeed = (float)(Math.random()*3);
 		pCol = (int)(Math.random()*255);
-		pAng = (float)(Math.random()*360);
+		pAng = (float)(Math.random()*2*PI);
 
 	}
 	public void move() {
-		pX = pX + (cos((float)pAng));
-		pY = pY + (sin((float)pAng));
+		pX = pX + pSpeed*(cos((float)pAng));
+		pY = pY + pSpeed*(sin((float)pAng));
 	}
 	public void show() {
 		fill(pCol, pX, pY);
@@ -63,7 +64,7 @@ class OddballParticle implements Particle //uses an interface
 		pX = 150;
 		pY = 150;
 		pCol = (int)(Math.random()*255);
-		pAng = (float)(Math.random()*360);
+		pAng = (float)(Math.random()*2*PI);
 
 	}
 
@@ -77,8 +78,26 @@ class OddballParticle implements Particle //uses an interface
 	}
 	//your code here
 }
-class JumboParticle //uses inheritance
+class JumboParticle extends NormalParticle//uses inheritance
 {
 	//your code here
+	float pX, pY, pSpeed, pAng;
+	int pCol;
+	
+	JumboParticle() {
+		pX = 150;
+		pY = 150;
+		pCol = (int)(Math.random()*255);
+		pAng = (float)(Math.random()*2*PI);
+
+	}
+	public void move() {
+		pX = pX + (cos((float)pAng));
+		pY = pY + (sin((float)pAng));
+	}
+	public void show() {
+		fill(pCol, pX, pY);
+		ellipse(pX, pY, 25, 25);
+	}
 }
 
