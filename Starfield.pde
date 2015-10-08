@@ -5,7 +5,7 @@ void setup()
 	//your code here
 	size(300, 300);
 	background(0);
-	
+	// CREATE PARTICLES USING ARRAY INDEX
     for (int i = 0; i < matter.length-2; i++) {
     	matter[i] = new NormalParticle();
     }
@@ -19,37 +19,60 @@ void setup()
 void draw()
 {
 	//your code here
+	// RUNS THE SHOW AND MOVE FUNCTIONS
 	background(0);
 	for (int i = 0; i < matter.length; i++) {
 		matter[i].move();
 		matter[i].show();
 	}
 }
+
 class NormalParticle implements Particle
 {
 	//your code here
 	float pX, pY, pSpeed, pAng;
 	int pCol;
 	NormalParticle() {
+		// INITIALIZE IN CENTER, SPEED, ANGLE, AND COLOR ARE RANDOM
 		pX = 150;
 		pY = 150;
-		pSpeed = (float)(Math.random()*3);
+		pSpeed = (float)(Math.random()*2+1);
 		pCol = (int)(Math.random()*255);
 		pAng = (float)(Math.random()*2*PI);
 
 	}
 	public void move() {
+		// CHANGES POSITION BASED ON ANGLE AND SPEED
 		pX = pX + pSpeed*(cos((float)pAng));
 		pY = pY + pSpeed*(sin((float)pAng));
+		// LOOP BACK INTO CENTER WHEN PARTICLE EXITS SCREEN
+		if (pX > 300 && pY > 300 || pX < 0 && pY < 0 || pX > 300 && pY < 0 || pX < 0 && pY > 300) {
+			pX = 150;
+			pY = 150;
+			//RESETS ANGLE AND SPEED
+			pSpeed = (float)(Math.random()*2+1);
+			pAng = (float)(Math.random()*2*PI);
+		}
 	}
 	public void show() {
-		fill(pCol, pX, pY);
+
+		// LEFT CLICK MAKES EVERYTHING WHITE
+		if (mousePressed == true && mouseButton == LEFT) {
+			fill(255, 255, 255);
+		}
+		else if (mousePressed == true && mouseButton == RIGHT) {
+			fill (0);
+		}
+		else {
+			fill(pCol, pX, pY);
+		}
 		ellipse(pX, pY, 5, 5);
 	}
 }
 interface Particle
 {
 	//your code here
+	// ALL PARTICLES HAVE THESE FUNCTIONS
 	public void move(); 
 
 	
@@ -63,17 +86,25 @@ class OddballParticle implements Particle //uses an interface
 	OddballParticle() {
 		pX = 150;
 		pY = 150;
-		pCol = (int)(Math.random()*255);
-		pAng = (float)(Math.random()*2*PI);
+		
+		
 
 	}
 
 	void move() {
-		pX = pX + ((float)Math.random()*2-1);
-		pY = pY + ((float)Math.random()*2-1);
+		//SPEED AND ANGLE CONSTANTLY CHANGE
+		pAng = (float)(Math.random()*2*PI);
+		pSpeed = (float)(Math.random()*3);
+		pX = pX + pSpeed*((float)Math.random()*2-1);
+		pY = pY + pSpeed*((float)Math.random()*2-1);
+
+		if (pX > 300 && pY > 300 || pX < 0 && pY < 0 || pX > 300 && pY < 0 || pX < 0 && pY > 300) {
+			pX = 150;
+			pY = 150;
+		}
 	}
 	void show() {
-		fill (pX, pCol, pY);
+		fill (255, 255, 255);
 		ellipse ( pY, pY, 5, 5);
 	}
 	//your code here
@@ -87,16 +118,34 @@ class JumboParticle extends NormalParticle//uses inheritance
 	JumboParticle() {
 		pX = 150;
 		pY = 150;
+		pSpeed = (float)(Math.random()*2+1);
 		pCol = (int)(Math.random()*255);
 		pAng = (float)(Math.random()*2*PI);
 
 	}
 	public void move() {
-		pX = pX + (cos((float)pAng));
-		pY = pY + (sin((float)pAng));
+
+		pX = pX + pSpeed*(cos((float)pAng));
+		pY = pY + pSpeed*(sin((float)pAng));
+		// LOOPS BACK TO CENTER
+		if (pX > 300 && pY > 300 || pX < 0 && pY < 0 || pX > 300 && pY < 0 || pX < 0 && pY > 300) {
+			pX = 150;
+			pY = 150;
+			// CHANGES ANGLE BY 30 DEGREES EVERY LOOP 
+			pAng = pAng + PI/6;
+		}
 	}
 	public void show() {
-		fill(pCol, pX, pY);
+		// LEFT CLICK MAKES EVERYTHING WHTIE
+		if (mousePressed == true && mouseButton == LEFT) {
+			fill(255, 255, 255);
+		}
+		else if (mousePressed == true && mouseButton == RIGHT) {
+			fill (0);
+		}
+		else {
+			fill(pCol, pX, pY);
+		}
 		ellipse(pX, pY, 25, 25);
 	}
 }
