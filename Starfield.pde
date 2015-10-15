@@ -38,7 +38,7 @@ class NormalParticle implements Particle
 		pY = 150;
 		pSpeed = (float)(Math.random()*2+1);
 		pCol = (int)(Math.random()*255);
-		pAng = (float)(Math.random()*2*PI);
+		pAng = (float)(Math.random()*TAU);
 
 	}
 	public void move() {
@@ -51,7 +51,7 @@ class NormalParticle implements Particle
 			pY = 150;
 			//RESETS ANGLE AND SPEED
 			pSpeed = (float)(Math.random()*2+1);
-			pAng = (float)(Math.random()*2*PI);
+			pAng = (float)(Math.random()*TAU);
 		}
 	}
 	public void show() {
@@ -93,19 +93,23 @@ class OddballParticle implements Particle //uses an interface
 
 	void move() {
 		//SPEED AND ANGLE CONSTANTLY CHANGE
-		pAng = (float)(Math.random()*2*PI);
-		pSpeed = (float)(Math.random()*3);
-		pX = pX + pSpeed*((float)Math.random()*2-1);
-		pY = pY + pSpeed*((float)Math.random()*2-1);
+		
+			pAng = (float)(Math.random()*TAU);
 
-		if (pX > 300 && pY > 300 || pX < 0 && pY < 0 || pX > 300 && pY < 0 || pX < 0 && pY > 300) {
+			pSpeed = 3;
+			pX = pX + pSpeed*(cos((float)pAng));
+			pY = pY + pSpeed*(sin((float)pAng));
+			if (pX > 300 && pY > 300 || pX < 0 && pY < 0 || pX > 300 && pY < 0 || pX < 0 && pY > 300) {
 			pX = 150;
 			pY = 150;
+			
 		}
+
+
 	}
 	void show() {
 		fill (255, 255, 255);
-		ellipse ( pY, pY, 5, 5);
+		ellipse ( pY, pY, pX/10, pY/10);
 	}
 	//your code here
 }
@@ -120,7 +124,7 @@ class JumboParticle extends NormalParticle//uses inheritance
 		pY = 150;
 		pSpeed = (float)(Math.random()*2+1);
 		pCol = (int)(Math.random()*255);
-		pAng = (float)(Math.random()*2*PI);
+		pAng = (float)(Math.random()*TAU);
 
 	}
 	public void move() {
